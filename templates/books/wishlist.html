@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+<style>
+
+.wishlist-booklist {
+  font-size: 2.5rem;
+  margin-top: -0.6rem;
+  background-color: transparent !important;
+  cursor: pointer;
+  color: #878484;
+}
+
+</style>
+<div class="py-3 py-md-5 bg-light">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="shopping-cart">
+
+                        <div class="cart-header d-none d-sm-none d-mb-block d-lg-block">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4>Products</h4>
+                                </div>
+                                <div class="col-md-2">
+                                    <h4>Price</h4>
+                                </div>
+                                <div class="col-md-2">
+                                    <h4>Quantity</h4>
+                                </div>
+                                <div class="col-md-2">
+                                    <h4>Remove</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                {% if warningMsg %}
+
+                    {% for wishlist in wishlistBooks %}
+
+                        <div class="cart-item">
+                            <div class="row">
+
+                                <div class="col-md-5 my-auto">
+                                    <a href="/detail/{{ wishlist.id }}">
+                                        <label style="font-size: 1.3rem;" class="product-name">
+                                            <img src="{{ wishlist.bookimage_set.first.image.url }}" width="70" alt="">
+                                            {{ wishlist.name }}
+                                        </label>
+                                    </a>
+                                </div>
+
+                                <div class="col-md-2 my-auto">
+                                    <span style="font-size: 1.2rem;">3 aylıq <label style="font-size: 1.2rem;" class="price">{{ wishlist.rent }} AZN </label></span>
+                                </div>
+
+                                <div class="col-md-2 my-auto">
+                                     <button type="button" title="İstək Siyahısından Çıxarın" class="wishlist-booklist" onclick="delWish('{{wishlist.id}}')">
+				                        <i style="color: red;" id="wishlist" class="bi bi-x-square"></i>
+			                        </button>
+                                </div>
+
+                                <div class="col-md-3 my-auto">
+                                    <div class="remove">
+                                        <a href="" class="btn btn-success btn-sm">
+                                            <i class="fa fa-trash"></i> Məhsul Siyahısına Əlavə Et
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <h4 style="color: red; text-align: center;">İstək siyahısına məhsul əlavə etmək və ya əlavə etdiyiniz məhsulları görmək üçün istifadəçi hesabınıza giriş etməlisiniz</h4>
+
+                {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'assets/js/jquery-1.11.0.min.js' %}"></script>
+<script>
+    const wishlist = $("#wishlist");
+    wishlist.css('color', '#daa556');
+
+    const search = $("#search-b");
+   	search.hide();
+
+
+   	const wish_url = "{% url 'books:delwish' %}"
+
+	function delWish(id){
+
+		var myHeaders = new Headers()
+           myHeaders.append('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value)
+
+           var formData = new FormData()
+           formData.append('id', id)
+
+			var requestOptions = {
+               method: 'POST',
+                headers: myHeaders,
+                body: formData,
+                redirect: 'follow',
+            };
+
+            response = fetch(wish_url, requestOptions)
+            	.then(function(response) {
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            if (data.permission == false){
+                                $("#permission").append("Əməliyyatı etmək üçün istifadəçi hesabına giriş etməlisiniz");
+                            } else if (data.success) {
+								$("#wishlist").remove();
+                            }
+                            location.reload()
+                        })
+
+                    }
+                })
+
+		}
+</script>
+
+{% endblock %}

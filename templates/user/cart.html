@@ -1,0 +1,151 @@
+{% extends 'user-base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="page-title">
+                        <h3>Məhsul Siyahısı</h3>
+                    </div>
+
+                    <form method="POST"> <!--  action="{% url 'user:payment' user.slug %}" -->
+                    {% csrf_token %}
+
+                    <div class="row w-100">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <p style="font-size: 1.1rem" class="mb-5 text-start">
+                               Siyahınızda <i class="text-info font-weight-bold"><strong>{{ carts|length }}</strong></i> kitab var </p>
+                            <table id="shoppingCart" class="table table-condensed table-responsive">
+
+                                <thead>
+                                    <tr>
+                                        <th style="width:45%">Kitab adı</th>
+                                        <th style="width:10%">Mövcud Kitab Sayı</th>
+                                        <th style="width:20%">Kirayə Qiyməti</th>
+                                        <th style="width:13%">Miqdar</th>
+                                        <th style="width:12%">Siyahıdan Sil</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for cart, price in carts.items %}
+
+                                    <tr>
+                                        <td data-th="Product">
+                                            <div class="row">
+                                                <div class="col-md-2 text-left">
+                                                    <img src="{{cart.book.bookimage_set.first.image.url}}" width="120" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                                </div>
+                                                <div class="col-md-9 text-left mt-sm-2">
+                                                    <h5>{{cart.book.name}}</h5>
+                                                    <p class="font-weight-light">{{cart.author_none}}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-th="Count">{{cart.book.quantity}}</td>
+                                        <td data-th="Price">{{cart.month}} Aylıq - <span class="{{price|floatformat:2}}" id="r_price">{{price|floatformat:2}}</span>  AZN</td>
+                                        <td data-th="Quantity">
+                                            <input type="number" id="quantity-{{cart.id}}" name="quantity-{{cart.id}}" onkeydown="return false" class="form-control form-control-lg text-center" value="1" min="1" max="{{cart.book.quantity}}">
+                                        </td>
+                                        <td class="actions" data-th="">
+                                            <div class="text-right">
+                                                <button type="button" title="Məhsulu məhsul siyahınızdan silin" onclick="deleteCart('{{cart.id}}');" class="btn btn-white border-secondary bg-white btn-md mb-2">
+                                                    <i style="color: red" class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                {% if carts.items|length != 0 %}
+
+                    <div class="row mt-4 justify-content-end">
+                        <div class="col-2">
+                            <h5>Toplam qiymət:</h5>
+                            <h4> <span> <input type="text"
+                                               style="border: none; background-color: transparent; font-family: inherit; font-size: inherit; font-weight: inherit; color: inherit; cursor: not-allowed;"
+                                               id="subtotal" name="subtotal" value="{{cart_total_price|floatformat:2}}"
+                                               readonly> AZN </span></h4>
+
+                        </div>
+                        <div class="col-2 mt-4">
+                           <button style="font-size: 1.2rem" type="submit" class="btn btn-primary mb-4 btn-lg pl-5 pr-5">Ödənişə Keç</button>
+                        </div>
+                    </div>
+
+                {% else %}
+                    <h5 class="text-danger text-center mt-3">Siyahınızda kitab yoxdur</h5>
+                {% endif %}
+
+                     </form>
+
+                </div>
+            </div>
+
+<script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+<script>
+
+    function calculateSubtotal(){
+        let total = 0;
+
+        $('tr td span').each(function() {
+          total += parseFloat($(this).text().replace(',', '.'));
+        });
+
+        $('#subtotal').val(total.toFixed(2).replace('.', ','));
+    }
+
+    $("input[type='number']").on("change", function() {
+        const getClass = $(this);
+            const quantity = getClass.val();
+            const spanValue = getClass.closest('tr').find('td span');
+            const price = parseFloat(spanValue.attr('class').replace(",", "."));
+            const totalPrice = quantity * price;
+            spanValue.text(totalPrice.toFixed(2).replace(".", ","));
+
+            calculateSubtotal()
+      });
+
+
+    const del_cart = "{% url 'user:delcart' %}"
+
+	function deleteCart(id){
+
+		var myHeaders = new Headers()
+           myHeaders.append('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value)
+
+           var formData = new FormData()
+           formData.append('id', id)
+
+			var requestOptions = {
+               method: 'POST',
+                headers: myHeaders,
+                body: formData,
+                redirect: 'follow',
+            };
+
+            response = fetch(del_cart, requestOptions)
+            	.then(function(response) {
+                    if (response.ok) {
+                        response.json().then((data) => {
+                        if (data.success) {
+								location.reload()
+                            }
+                        })
+
+                    }
+                })
+
+		}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% load static %}
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>İstifadəçi Qeydiyyatı</title>
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/auth.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/fontawesome/css/fontawesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/fontawesome/css/solid.min.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="auth-content">
+            <div class="card">
+                <div class="mt-2 ms-2">
+                    <a style="text-decoration: none;" href="/">
+                        <i style="font-size: 23px; color: grey" class="fas fa-sign-out-alt fa-rotate-180"></i>
+                        <span style="font-size: 15px;">Ana Səhifə</span>
+                    </a>
+                </div>
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <img class="brand" src="{% static 'assets/images/main-logo.png' %}" width="200">
+                    </div>
+                    <h6 class="mb-4 text-muted">İstifadəçi Qeydiyyatı</h6>
+                    <form method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+                        <div class="mb-3 text-start">
+                                {{ registerUserForm.username.label }}
+								{{ registerUserForm.username }}
+
+								{% if registerUserForm.username.errors %}
+									{% for error in registerUserForm.username.errors %}
+										<li style="color: red"> {{ error|escape }} </li>
+									{% endfor %}
+								{% endif %}
+                        </div>
+                        <div class="mb-3 text-start">
+                            {{ registerUserForm.first_name.label }}
+							{{ registerUserForm.first_name }}
+                        </div>
+                        <div class="mb-3 text-start">
+                            {{ registerUserForm.last_name.label }}
+							{{ registerUserForm.last_name }}
+                        </div>
+                        <div class="mb-3 text-start">
+                                {{ registerUserForm.email.label }}
+								{{ registerUserForm.email }}
+
+								{% if registerUserForm.email.errors %}
+									{% for error in registerUserForm.email.errors %}
+										<li style="color: red"> {{ error|escape }} </li>
+									{% endfor %}
+								{% endif %}
+                        </div>
+                        <div class="mb-3 text-start">
+                                {{ registerUserForm.password.label }}
+								{{ registerUserForm.password }}
+
+								{% if registerUserForm.password.errors %}
+									{% for error in registerUserForm.password.errors %}
+										<li style="color: red"> {{ error|escape }} </li>
+									{% endfor %}
+								{% endif %}
+                        </div>
+                        <div class="mb-3 text-start">
+                                {{ registerUserForm.password_confirm.label }}
+								{{ registerUserForm.password_confirm }}
+
+								{% if registerUserForm.password_confirm.errors %}
+									{% for error in registerUserForm.password_confirm.errors %}
+										<li style="color: red"> {{ error|escape }} </li>
+									{% endfor %}
+								{% endif %}
+                        </div>
+                        <div class="mb-3 text-start">
+                                {{ registerForm.age.label }}
+								{{ registerForm.age }}
+
+								{% if registerForm.age.errors %}
+									{% for error in registerForm.age.errors %}
+										<li style="color: red"> {{ error|escape }} </li>
+									{% endfor %}
+								{% endif %}
+                        </div>
+                        <div class="mb-3 text-start">
+                            {{ registerForm.bio.label }}
+							{{ registerForm.bio }}
+                        </div>
+                        <div class="mb-3 text-start">
+                                <span>Profil şəkili</span>
+								{{ registerForm.photo }}
+
+								{% if registerForm.photo.errors %}
+									{% for error in registerForm.photo.errors %}
+										<li style="color: red"> {{ error|escape }} </li>
+									{% endfor %}
+								{% endif %}
+                        </div>
+
+                        <button class="btn btn-primary shadow-2 mb-4 mt-4">Qeydiyyatdan Keç</button>
+                    </form>
+                    <span class="mb-0 text-muted">Mövcud hesabınız var? <a href="/user/login/">Giriş et</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+
+</html>

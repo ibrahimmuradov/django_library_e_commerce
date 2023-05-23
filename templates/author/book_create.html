@@ -1,0 +1,204 @@
+{% extends 'author-base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+			<div class="content">
+                <div class="container">
+                    <div class="page-title">
+                        <h3>Yeni Kitab Paylaş</h3>
+                    </div>
+					<div class="col-lg-12">
+
+                                    <form accept-charset="utf-8" method="post" enctype="multipart/form-data">
+						                {% csrf_token %}
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-6">
+                                                {{ bookCreate.name.label }}
+                                                {{ bookCreate.name }}
+
+                                                {% if bookCreate.name.errors %}
+                                                    {% for error in bookCreate.name.errors %}
+                                                        <li style="color: red"> {{ error|escape }}</li>
+                                                    {% endfor %}
+                                                {% endif %}
+
+                                                {% if messages %}
+                                                    <ul class="messages">
+                                                        {% for message in messages %}
+                                                            <li style="color: red" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                {{ bookCreate.author.label }}
+                                                {{ bookCreate.author }}
+
+                                                {% if bookCreate.author.errors %}
+                                                    {% for error in bookCreate.author.errors %}
+                                                        <li style="color: red"> {{ error|escape }} </li>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            {{ bookCreate.summary.label }} <br>
+                                            {{ bookCreate.summary }} <br>
+
+                                            {% if bookCreate.summary.errors %}
+                                                {% for error in bookCreate.summary.errors %}
+                                                    <li style="color: red"> {{ error|escape }} </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-6">
+                                                {{ bookCreate.category.label }}
+								                {{ bookCreate.category }}
+                                            </div>
+                                            <div class="mb-3 col-md-4">
+                                                {{ bookCreate.release_date.label }}
+                                                {{ bookCreate.release_date }}
+
+                                                {% if bookCreate.release_date.errors %}
+                                                    {% for error in bookCreate.release_date.errors %}
+                                                        <li style="color: red"> {{ error|escape }} </li>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="mb-3 col-md-2">
+                                                {{ bookCreate.rent.label }}
+                                                {{ bookCreate.rent }}
+
+                                                {% if bookCreate.rent.errors %}
+                                                    {% for error in bookCreate.rent.errors %}
+                                                        <li style="color: red"> {{ error|escape }} </li>
+                                                    {% endfor %}
+                                                {% endif %}
+								                <span class="mt-3" id="rent_calculate"></span> <br>
+                                            </div>
+                                        </div>
+                                        Kiralama ayı <span class="text-muted"> - Ən çox 3 seçim edə bilərsiniz və bu seçimlər sonradan dəyişdirilə bilməz*</span>
+                                        <div class="row">
+                                            <div class="mb-3 col-md-2">
+                                                <div class="form-check">
+                                                  <input class="form-check-input" name="rent-month" type="checkbox" value="1" id="oneM">
+                                                  <label class="form-check-label" for="oneM">
+                                                    1 Ay
+                                                  </label>
+                                                </div>
+                                                <div class="form-check">
+                                                  <input class="form-check-input" name="rent-month" type="checkbox" value="3" id="threeM">
+                                                  <label class="form-check-label" for="threeM">
+                                                    3 Ay
+                                                  </label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-md-2">
+                                                <div class="form-check">
+                                                  <input class="form-check-input" name="rent-month" type="checkbox" value="6" id="sixM">
+                                                  <label class="form-check-label" for="sixM">
+                                                    6 Ay
+                                                  </label>
+                                                </div>
+                                                <div class="form-check">
+                                                  <input class="form-check-input" name="rent-month" type="checkbox" value="9" id="nineM">
+                                                  <label class="form-check-label" for="nineM">
+                                                    9 Ay
+                                                  </label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-md-2">
+                                                <div class="form-check">
+                                                  <input class="form-check-input" name="rent-month" type="checkbox" value="12" id="twelveM">
+                                                  <label class="form-check-label" for="twelveM">
+                                                    12 Ay
+                                                  </label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-md-4 ms-auto">
+                                                {{ bookImageCreateForm.image.label }} <br>
+                                                {{ bookImageCreateForm.image }}
+
+                                                {% if bookImageCreateForm.image.errors %}
+                                                    {% for error in bookImageCreateForm.image.errors %}
+                                                        <li style="color: red">{{ error|escape }} </li>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-4">
+                                                {{ bookCreate.quantity.label }}
+								                {{ bookCreate.quantity }}
+                                            </div>
+                                            <div class="mb-3 col-md-4">
+                                                {{ bookCreate.warehouse.label }}
+                                                {{ bookCreate.warehouse }}
+
+                                                {% if bookCreate.warehouse.errors %}
+                                                    {% for error in bookCreate.warehouse.errors %}
+                                                        <li style="color: red">{{ error|escape }} </li>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="mb-4 col-md-4">
+                                                {{ bookCreate.status.label }}
+                                                {{ bookCreate.status }}
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary"><i class="fas fa-external-link-alt"></i>&nbsp;&nbsp; Paylaş </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+<script src="{% static 'assets/js/jquery-1.11.0.min.js' %}"></script>
+<script>
+
+    $(document).ready(function() {
+
+        $('#id_rent').attr('maxlength', '3');
+
+  		$('#id_rent').keyup(function() {
+    		var inputValue = $(this).val();
+    		if (inputValue>500) {
+    		    $('#rent_calculate').html("3 aylıq kira qiyməti 500 AZN-dən yuxarı olmamalıdır");
+    		} else if (inputValue<3) {
+				$('#rent_calculate').html("3 aylıq kira qiyməti 3 AZN-dən aşağı olmamalıdır");
+			} else {
+			    $('#rent_calculate').html("");
+			}
+  		});
+	});
+
+
+const checkboxes = document.querySelectorAll('input[type=checkbox][name=rent-month]');
+let checkedCount = 0;
+
+checkboxes.forEach((checkbox) => {
+  checkbox.addEventListener('change', () => {
+    if (checkbox.checked) {
+      checkedCount++;
+    } else {
+      checkedCount--;
+    }
+
+    if (checkedCount === 3) {
+      checkboxes.forEach((cb) => {
+        if (!cb.checked) {
+          cb.disabled = true;
+        }
+      });
+    } else {
+      checkboxes.forEach((cb) => {
+        cb.disabled = false;
+      });
+    }
+  });
+});
+</script>
+
+{% endblock %}

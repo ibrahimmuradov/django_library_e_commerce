@@ -1,0 +1,80 @@
+{% extends 'author-base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+            <div class="content">
+                <div class="container">
+                    <div class="page-title">
+                        <h3>Kitablar
+                            <a href="/author/book-create/" class="btn btn-sm btn-outline-primary float-end">
+                                <i class="fas fa-solid fa-book-medical"></i> Yeni Kitab Yarat
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-body">
+                            <table width="100%" class="table table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>Şəkil</th>
+                                        <th>Ad</th>
+                                        <th>Kateqoriya</th>
+                                        <th>Anbar</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                {% for book in book_list %}
+
+                                    <tr>
+                                        <td><img width="50" src="{{ book.bookimage_set.first.image.url }}"></td>
+                                        <td>{{ book.name }}</td>
+                                        <td>{{ book.category }}</td>
+                                        <td>{{ book.warehouse }}</td>
+                                        <td>{{ book.status }}</td>
+                                        <td class="text-end">
+                                            <a href="/author/book-update/{{book.id}}/" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
+                                            <a href="/author/book-delete/{{book.id}}/" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+
+                            <nav aria-label="Page navigation example">
+                              <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                  {% if book_list.has_previous %}
+                                  <a class="page-link" href="?page={{ book_list.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                  </a>
+                                  {% endif %}
+                                </li>
+                                {% for i in book_list.paginator.page_range %}
+                                <li class="page-item{% if book_list.number == i %} active{% endif %}"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                                {% endfor %}
+                                <li class="page-item">
+                                  {% if book_list.has_next %}
+                                  <a class="page-link" href="?page={{ book_list.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                  </a>
+                                  {% endif %}
+                                </li>
+                              </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}

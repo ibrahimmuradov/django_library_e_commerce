@@ -1,0 +1,80 @@
+{% extends 'user-base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="page-title">
+                        <h3>Ödəniş Səhifəsi</h3>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                                <div class="card-header">
+                                    <div class="bg-white shadow-sm pt-4 pl-2 pr-2 pb-2">
+                                        <!-- Credit card form tabs -->
+                                        <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
+                                            <li class="nav-item"> <a data-toggle="pill" href="#" class="nav-link active "> <i class="fas fa-credit-card mr-2"></i> Bank Kartı </a> </li>
+                                        </ul>
+                                    </div> <!-- End -->
+                                    <!-- Credit card form content -->
+                                    <!-- Credit card form content -->
+                                    <div class="tab-content">
+                                        <!-- credit card info-->
+                                        <div id="credit-card" class="tab-pane fade show active pt-3">
+
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <div class="form-group mb-3"> <label for="username">
+                                                        <h6>Kartı Sahibinin Adı</h6>
+                                                    </label> <input type="text" name="c-name" placeholder="Kart sahibinin adı" required class="form-control "> </div>
+                                                <div class="form-group mb-3"> <label for="cardNumber">
+                                                        <h6>Kart Nömrəsi</h6>
+                                                    </label>
+                                                    <div class="input-group"> <input type="number" name="c-number" placeholder="Kart nömrəsi" class="form-control " required>
+                                                        <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fab fa-cc-visa mx-1"></i> <i class="fab fa-cc-mastercard mx-1"></i> <i class="fab fa-cc-amex mx-1"></i> </span> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group"> <label><span class="hidden-xs">
+                                                                    <h6>Son İstifadə Tarixi</h6>
+                                                                </span></label>
+                                                            <div class="input-group"> <input type="number" placeholder="Ay" name="c-month" class="form-control" required> <input type="number" placeholder="İl" name="c-year" class="form-control" required> </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group mb-4"> <label data-toggle="tooltip" title="Three digit CV code on the back of your card">
+                                                                <h6>CVV <i class="fa fa-question-circle d-inline"></i></h6>
+                                                            </label> <input type="number" required class="form-control" name="c-ccv"> </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button type="submit" class="subscribe btn btn-primary btn-block shadow-sm"> Ödəniş Et </button>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div> <!-- End -->
+                                    <!-- End -->
+                                </div>
+
+                                    {% if messages %}
+                                        <ul class="messages">
+                                            {% for message in messages %}
+                                                <li style="color: green" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+
+{% endblock %}

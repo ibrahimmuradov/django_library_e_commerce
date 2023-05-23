@@ -1,0 +1,110 @@
+{% extends 'user-base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="page-title">
+                        <h3>İstək Siyahısı</h3>
+                    </div>
+
+                    {% csrf_token %}
+
+					 <div class="col-md-12 col-lg-12">
+                            <div class="card">
+                                <div class="card-header">İstək siyahısına əlavə etdikləriniz</div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Adı</th>
+                                                    <th>Kira Qiyməti</th>
+                                                    <th>Anbar</th>
+                                                    <th>Məhsul Siyahısı</th>
+                                                    <th>Siyahıdan Sil</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for wish in wishlist %}
+                                                <tr>
+                                                    <td>{{wish.name}}</td>
+                                                    <td>{{wish.rent}} AZN</td>
+                                                    <td>{{wish.warehouse}}</td>
+                                                    <td>{% if wish in wish_books %} Əlavə edilib {% else %}<a href="/detail/{{wish.id}}" class="btn btn-outline-success">Əlavə Et <i class="fas fa-cart-plus"></i></a> {% endif %}</td>
+                                                    <td id="wishlist" class="text-start">
+                                                        <button type="button" onclick="delWish('{{wish.id}}')" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i> </button> </button>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <nav aria-label="Page navigation example">
+                          <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                              {% if wishlist.has_previous %}
+                              <a class="page-link" href="?page={{ wishlist.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                              {% endif %}
+                            </li>
+                            {% for i in wishlist.paginator.page_range %}
+                            <li class="page-item{% if wishlist.number == i %} active{% endif %}"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                            {% endfor %}
+                            <li class="page-item">
+                              {% if wishlist.has_next %}
+                              <a class="page-link" href="?page={{ wishlist.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                              </a>
+                              {% endif %}
+                            </li>
+                          </ul>
+                        </nav>
+
+                </div>
+            </div>
+
+<script>
+
+   	const wish_url = "{% url 'user:delwish' %}"
+
+	function delWish(id){
+
+		var myHeaders = new Headers()
+           myHeaders.append('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value)
+
+           var formData = new FormData()
+           formData.append('id', id)
+
+			var requestOptions = {
+               method: 'POST',
+                headers: myHeaders,
+                body: formData,
+                redirect: 'follow',
+            };
+
+            response = fetch(wish_url, requestOptions)
+            	.then(function(response) {
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            if (data.success) {
+                                    location.reload()
+                                }
+                        })
+
+                    }
+                })
+
+		}
+</script>
+
+{% endblock %}

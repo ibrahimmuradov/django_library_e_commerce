@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+	<header id="header">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-2">
+					<div class="main-logo">
+						<a href="/"><img src="{% static 'assets/images/main-logo.png' %}" alt="logo"></a>
+					</div>
+
+				</div>
+
+				<div class="col-md-10">
+
+					<nav id="navbar">
+						<div class="main-menu stellarnav">
+							<ul class="menu-list">
+								<li class="menu-item"><a href="/" data-effect="Home">Ana Səhifə</a></li>
+								<li class="menu-item active"><a href="/shop/" class="nav-link" data-effect="Shop">Kitablar</a></li>
+								<li class="menu-item"><a href="/about/" class="nav-link" data-effect="About">Haqqımızda</a></li>
+								<li class="menu-item"><a href="/contact/" class="nav-link" data-effect="Contact">Əlaqə</a></li>
+							</ul>
+
+							<div class="hamburger">
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				            </div>
+
+						</div>
+					</nav>
+
+				</div>
+
+			</div>
+		</div>
+	</header>
+
+</div><!--header-wrap-->
+
+<!--<div>-->
+<!--	<div class="container">-->
+<!--		<div class="row">-->
+<!--			<div class="col-md-12">			-->
+<!--				<div class="colored">-->
+<!--					<h1 class="page-title">Shop</h1>-->
+<!--					<div class="breadcum-items">-->
+<!--						<span class="item"><a href="index.html">Home /</a></span>-->
+<!--						<span class="item colored">Shop</span>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--</div>-->
+<!--site-banner-->
+
+<section class="padding-large">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-md-3">
+
+				<form method="GET">
+				
+				<h3 class="filter-title">Kateqoriyalar</h3>
+					<div class="filter-box">
+						<div class="category-box">
+
+							 {% for category in categories %}
+								{% for categoryName in category.children.all %}
+									<div class="line">
+									  <input type="checkbox" class="my-checkbox-x2" name="category" id="category" value="{{ categoryName.id }}">
+									  {{ categoryName.name }}
+									</div>
+								{% endfor %}
+							{% endfor %}
+
+						</div>
+					</div>
+
+				<h3 class="filter-title">Kirayəçi</h3>
+
+					<div class="filter-box">
+						<select name="tenant" id="tenant">
+						  <option value="">Seçilməyib</option>
+							{% for tenant in tenants %}
+							  <option value="{{tenant.id}}">{{tenant.name}}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+				<h3 class="filter-title">Nəşr İli</h3>
+
+					<div class="filter-box">
+						<select name="year" id="year">
+						  <option value="">Seçilməyib</option>
+							{% for year in years %}
+							  <option value="{{year}}">{{year}}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<input type="hidden" name="page" value="{{books.number}}"> <!-- for new filter on current page -->
+
+					<button type="submit">Filtirlə</button>
+
+				</form>
+
+			</div>
+
+			<div class="col-md-9">
+
+			<div class="products-grid grid">
+
+				{% for book in books %}
+
+			  	<figure class="product-style">
+					<a href="{% url 'books:detail' book.id %}">
+						<img src="{{ book.bookimage_set.first.image.url }}" alt="Books" class="product-item">
+					</a>
+					<figcaption>
+						<h3> {{ book.name }} </h3>
+						<p style="font-size: 18px;">Yazar: {{book.author_none|truncatewords:5 }} <br>
+						<span style="font-size: 16px">Paylaşan: {{book.userauthor.name|truncatewords:5 }} </span></p>
+						<div class="item-price"> {{book.rent}} AZN </div>
+					</figcaption>
+				</figure>
+
+				{% endfor %}
+
+	    	</div>
+
+			<center>
+
+			{% if pagiantor.num_pages > 1 %}
+
+				<div class="pagination_section">
+					{% if books.has_previous %}
+            			<a href="?page={{ books.previous_page_number }}&{% for val in filter_dict %}{{val}}{% endfor %}"><< </a>
+					{% endif %}
+
+						{% for i in books.paginator.page_range %}
+							<a href="?page={{i}}&{% for val in filter_dict %}{{val}}{% endfor %}" {% if books.number == i %} class="active" {% endif %}>{{i}}</a>
+						{% endfor %}
+
+					{% if books.has_next %}
+            			<a href="?page={{ books.next_page_number }}&{% for val in filter_dict %}{{val}}{% endfor %}"> >></a>
+					{% endif %}
+        		</div>
+
+			{% endif %}
+
+			</center>
+
+		</div>
+	</div>
+
+
+	</div>
+</section>
+
+<script src="{% static 'assets/js/jquery-1.11.0.min.js' %}"></script>
+<script>
+	const search = $("#search-b");
+   	search.show();
+</script>
+
+{% endblock %}

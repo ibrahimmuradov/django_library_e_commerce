@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+	<header id="header">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-2">
+					<div class="main-logo">
+						<a href="/"><img src="{% static 'assets/images/main-logo.png' %}" alt="logo"></a>
+					</div>
+
+				</div>
+
+				<div class="col-md-10">
+
+					<nav id="navbar">
+						<div class="main-menu stellarnav">
+							<ul class="menu-list">
+								<li class="menu-item"><a href="/" data-effect="Home">Ana Səhifə</a></li>
+								<li class="menu-item"><a href="/shop/" class="nav-link" data-effect="Shop">Kitablar</a></li>
+								<li class="menu-item"><a href="/about/" class="nav-link" data-effect="About">Haqqımızda</a></li>
+								<li class="menu-item active"><a href="/contact/" class="nav-link" data-effect="Contact">Əlaqə</a></li>
+							</ul>
+
+							<div class="hamburger">
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				            </div>
+
+						</div>
+					</nav>
+
+				</div>
+
+			</div>
+		</div>
+	</header>
+
+</div><!--header-wrap-->
+
+<section class="contact-information padding-large mt-3">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 p-0 mb-3">
+				
+				<h2>Əlaqə Saxlayın</h2>
+
+				<div class="contact-detail d-flex flex-wrap mt-4">
+					<div class="detail mr-6 mb-4">
+						<p>Göndərdiyiniz mesaja ən qısa zamanda cavab verəcəyik. Təklif və şikayətləriniz bizim üçün önəmlidir.</p>
+						<ul class="list-unstyled list-icon">
+							<li><i class="icon icon-phone"></i>+994 994 94 94</li>
+							<li><i class="icon icon-envelope-o"></i><a href="info@booksaw.com">info@booksaw.com</a></li>
+							<li><i class="icon icon-location2"></i>North Melbourne VIC 3051, Australia</li>
+						</ul>
+					</div><!--detail-->
+					<div class="detail mb-4">
+						<h3>Sosial Media Linkləri</h3>
+						<div class="social-links flex-container">
+							<a href="#" class="icon icon-facebook"></a>
+							<a href="#" class="icon icon-twitter"></a>
+							<a href="#" class="icon icon-pinterest-p"></a>
+							<a href="#" class="icon icon-youtube"></a>
+							<a href="#" class="icon icon-linkedin"></a>
+						</div><!--social-links-->
+					</div><!--detail-->
+
+				</div><!--contact-detail-->
+			</div><!--col-md-6-->
+
+			<div class="col-md-6 p-0">
+				
+				<div class="contact-information">
+					<h2>Mesaj Göndərin</h2>
+					<form name="contactform" method="post" class="contact-form d-flex flex-wrap mt-4">
+						{% csrf_token %}
+						<div class="row">
+					    	<div class="col-md-6">
+								{{contact.name.label}}
+								{{contact.name}}
+
+								{% if contact.name.errors %}
+                                        {% for error in contact.name.errors %}
+                                            <li style="color: red"> {{ error|escape }}</li>
+                                        {% endfor %}
+                                    {% endif %}
+							</div>
+							<div class="col-md-6">
+								{{contact.email.label}}
+								{{contact.email}}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+
+								{{contact.message.label}}
+								{{contact.message}}
+
+								<button type="submit" name="submit" class="btn btn-full btn-rounded">Göndər</button>
+							</div>
+						</div>
+					</form>
+
+				</div><!--contact-information-->
+
+			</div><!--col-md-6-->
+
+		</div>
+	</div>
+</section>
+
+<section class="google-map">
+	<div class="mapouter"><div class="gmap_canvas"><iframe width="100%" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=2880%20Broadway,%20New%20York&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://getasearch.com/fmovies"></a><br><style>.mapouter{position:relative;text-align:right;height:500px;width:100%;}</style><a href="https://www.embedgooglemap.net">embedgooglemap.net</a><style>.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:100%;}</style></div></div>
+</section>
+
+<script src="{% static 'assets/js/jquery-1.11.0.min.js' %}"></script>
+<script>
+	const search = $("#search-b");
+   	search.hide();
+</script>
+
+{% endblock %}

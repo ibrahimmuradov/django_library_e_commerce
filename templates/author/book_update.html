@@ -1,0 +1,143 @@
+{% extends 'author-base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+			<div class="content">
+                <div class="container">
+                    <div class="page-title">
+                        <h3>Kitabı Yenilə</h3>
+                    </div>
+					<div class="col-lg-12">
+
+                                    <form accept-charset="utf-8" method="post" enctype="multipart/form-data">
+						                {% csrf_token %}
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-6">
+                                                {{ BookForm.name.label }}
+												{{ BookForm.name }}
+
+												{% if BookForm.name.errors %}
+													{% for error in BookForm.name.errors %}
+														<li style="color: red"> {{ error|escape }} </li>
+													{% endfor %}
+												{% endif %}
+
+												{% if messages %}
+                                                    <ul class="messages">
+                                                        {% for message in messages %}
+                                                            <li style="color: red" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                {{ BookForm.author.label }}
+												{{ BookForm.author }}
+
+												{% if BookForm.author.errors %}
+													{% for error in BookForm.author.errors %}
+														<li style="color: red"> {{ error|escape }} </li>
+													{% endfor %}
+												{% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            {{ BookForm.summary.label }} <br>
+											{{ BookForm.summary }} <br>
+
+											{% if BookForm.summary.errors %}
+												{% for error in BookForm.summary.errors %}
+													<li style="color: red"> {{ error|escape }} </li>
+												{% endfor %}
+											{% endif %}
+                                        </div>
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-4">
+                                                {{ BookForm.category.label }}
+												{{ BookForm.category }}
+                                            </div>
+                                            <div class="mb-3 col-md-4">
+                                                {{ BookForm.release_date.label }}
+												{{ BookForm.release_date }}
+
+												{% if BookForm.release_date.errors %}
+													{% for error in BookForm.release_date.errors %}
+														<li style="color: red"> {{ error|escape }} </li>
+													{% endfor %}
+												{% endif %}
+                                            </div>
+                                            <div class="mb-3 col-md-4">
+                                                {{ BookForm.rent.label }}
+												{{ BookForm.rent }}
+
+												{% if BookForm.rent.errors %}
+													{% for error in BookForm.rent.errors %}
+														<li style="color: red"> {{ error|escape }} </li>
+													{% endfor %}
+												{% endif %}
+
+												<span id="rent_calculate"></span> <br>
+                                            </div>
+                                        </div>
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-4">
+                                                {{ BookForm.quantity.label }}
+												{{ BookForm.quantity }}
+                                            </div>
+                                            <div class="mb-3 col-md-4">
+                                                {{ BookForm.warehouse.label }}
+												{{ BookForm.warehouse }}
+
+												{% if BookForm.warehouse.errors %}
+													{% for error in BookForm.warehouse.errors %}
+														<li style="color: red"> {{ error|escape }} </li>
+													{% endfor %}
+												{% endif %}
+                                            </div>
+											<div class="mb-3 col-md-4">
+                                                {{ BookForm.status.label }}
+												{{ BookForm.status }}
+                                            </div>
+											<div class="mb-3 col-md-4 mt-3">
+                                                {{ BookImageForm.image.label }} <br>
+												{{ BookImageForm.image }}
+
+												{% if BookImageForm.image.errors %}
+													{% for error in BookImageForm.image.errors %}
+														<li style="color: red"> {{ error|escape }} </li>
+													{% endfor %}
+												{% endif %}
+                                            </div>
+											<div class="mb-3 col-md-6 my-auto mx-auto">
+												<img src="{{BookPhoto.image.url}}" width="100" alt="">
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mt-3 mb-4"><i class="fas fa-pencil-alt"></i>&nbsp;&nbsp; Kitabı Yenilə </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+<script src="{% static 'assets/js/jquery-1.11.0.min.js' %}"></script>
+<script>
+
+    $(document).ready(function() {
+
+        $('#id_rent').attr('maxlength', '3');
+
+  		$('#id_rent').keyup(function() {
+    		var inputValue = $(this).val();
+    		if (inputValue>500) {
+    		    $('#rent_calculate').html("3 aylıq kira qiyməti 500 AZN-dən yuxarı olmamalıdır");
+    		} else if (inputValue > 2){
+    			$('#rent_calculate').html("6 aylıq kiralama qiyməti - <strong>" + inputValue*3 + "</strong> <br> 1 illik kiralama qiyməti - <strong>" + inputValue*5 + "</strong>");
+			} else {
+				$('#rent_calculate').html("3 aylıq kira qiyməti 3 AZN-dən aşağı olmamalıdır");
+			}
+  		});
+	});
+</script>
+
+{% endblock %}

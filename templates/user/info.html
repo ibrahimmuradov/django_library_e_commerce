@@ -1,0 +1,103 @@
+{% extends 'user-base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+<style>
+.image-container {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+</style>
+
+            <div class="content">
+                <div class="container">
+                    <div class="page-title">
+                        <h3>Bilgiləri Yenilə</h3>
+                    </div>
+                    <div class="row gx-5">
+                        <div class="col-lg-8">
+                            <form accept-charset="utf-8" method="post" action="" enctype="multipart/form-data">
+						        {% csrf_token %}
+                                <div class="mb-3">
+                                    {{ updateUserForm.first_name.label }}
+                                    {{ updateUserForm.first_name }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ updateUserForm.last_name.label }}
+                                    {{ updateUserForm.last_name }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ updateUserForm.email.label }}
+                                    {{ updateUserForm.email }}
+
+                                    {% if updateUserForm.email.errors %}
+                                        {% for error in updateUserForm.username.errors %}
+                                            <li style="color: red"> {{ error|escape }}</li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="mb-3">
+                                    {{ updateRegForm.age.label }}
+                                    {{ updateRegForm.age }}
+
+                                    {% if updateRegForm.age.errors %}
+                                        {% for error in updateRegForm.age.errors %}
+                                            <li style="color: red"> {{ error|escape }}</li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="mb-3">
+                                    {{ updateRegForm.bio.label }} <br>
+                                    {{ updateRegForm.bio }} <br>
+                                </div>
+                                <div class="mb-3">
+                                    {% if photo_url == "" %}
+									    <h4>Profil şəkili yoxdur</h4>
+								    {% else %}
+									Profil şəkili <br>
+
+                                    <div class="image-container">
+                                        <img class="mt-1" style="border-radius: 50%;" width="150" height="150" src="{{ photo_url }}">
+                                    </div>
+								    {% endif %}
+                                </div>
+
+                                <div class="mb-4">
+								    {{ updateRegForm.photo }}
+
+								    {% if updateRegForm.photo.errors %}
+									    {% for error in updateRegForm.photo.errors %}
+										    <li style="color: red"> {{ error|escape }}</li>
+                                        {% endfor %}
+								    {% endif %}
+                                </div>
+                                <div><p style="color: red;"> {{ warning }} </p></div>
+                                <div class="row">
+                                    <div class="col-4 mb-3">
+                                        <input type="submit" value="Məlumatları Yenilə" class="btn btn-success">
+                                    </div>
+                                    <div class="col-2 mb-3">
+                                       <a href="/user/change-password/"> <input type="button" value="Şifrəni Dəyiş" class="btn btn-outline-primary"> </a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-4">
+                            <img style="margin-top: 50px" src="{% static 'assets/images/undraw_sign_up_n6im.svg' %}" width="300" alt="banner" class="banner-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+	<header id="header">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-2">
+					<div class="main-logo">
+						<a href="index.html"><img src="{% static 'assets/images/main-logo.png' %}" alt="logo"></a>
+					</div>
+
+				</div>
+
+				<div class="col-md-10">
+
+					<nav id="navbar">
+						<div class="main-menu stellarnav">
+							<ul class="menu-list">
+								<li class="menu-item"><a href="/" data-effect="Home">Ana Səhifə</a></li>
+								<li class="menu-item"><a href="/shop/" class="nav-link" data-effect="Shop">Kitablar</a></li>
+								<li class="menu-item active"><a href="/about/" class="nav-link" data-effect="About">Haqqımızda</a></li>
+								<li class="menu-item"><a href="/contact/" class="nav-link" data-effect="Contact">Əlaqə</a></li>
+							</ul>
+
+							<div class="hamburger">
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				            </div>
+
+						</div>
+					</nav>
+
+				</div>
+
+			</div>
+		</div>
+	</header>
+
+</div><!--header-wrap-->
+
+<div class="site-banner">
+	<div class="banner-content">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">			
+					<div class="colored">
+						<h1 class="page-title">Haqqımızda</h1>
+						<div class="breadcum-items">
+							<span class="item colored">BookSaw</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div><!--site-banner-->
+
+<section class="chief-detail padding-large">
+	<div class="container">
+		<div class="row">
+			<div class="single-image col-md-12">
+				<p>BookSaw, kitabsevərlərin, tədqiqatçıların və tələbələrin kitab təminatında yeni dövrə başlamaq üçün müəyyən müddət ərzində yalnız rəqəmsal kitab almalarına və kirayə vermələrinə fürsət verən Rəqəmsal Nəşriyyat e-ticarət Platformasıdır</p>
+				<p>Dizayn və texniki infrastruktur işləri yerli mühəndislər tərəfindən hazırlanıb başa çatdırılan BookSaw elektron kitab platforması həm oxucular, həm də kitab kirayəçiləri üçün və bu sahəsində yeni iş modeli ilə ölkəmizdə yeni dövrə başlayacaq.  Texnologiyanın təmin etdiyi rahatlıqlar və qiymət üstünlükləri ilə nəşrlər çox sayıda oxucu kütləsinə çatacaq.</p>
+				
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="our-team bg-sand padding-large">
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-12">
+				<h2 class="section-title text-center mb-4">Komandamız</h2>
+			</div>
+
+		</div>
+
+		<div class="row">
+
+			<div class="col-md-3">
+
+				<div class="team-member text-center">
+					
+					<figure>
+						<a href="#"><img src="{% static 'assets/images/team-member2.jpg' %}" alt="post" class="member-image"></a>
+					</figure>
+
+					<div class="member-details text-center">
+						<h4>Aygün Həsənova</h4>
+						<div class="designation colored">CEO-Təsisçi</div>
+						<div class="social-links color-primary ">
+							<a href="#" class="icon icon-facebook pr-10"></a>
+							<a href="#" class="icon icon-twitter pr-10"></a>
+							<a href="#" class="icon icon-pinterest-p"></a>
+						</div>
+					</div>
+
+				</div>
+
+			</div><!--col-md-3-->
+
+			<div class="col-md-3 text-center">
+
+				<div class="team-member text-center">
+					<figure>
+						<img src="{% static 'assets/images/team-member5.jpg' %}" alt="post" class="member-image">
+					</figure>
+					<div class="member-details text-center">
+						<h4>Orxan Rəşidov</h4>
+						<div class="designation colored">Baş Menecer</div>
+						<div class="social-links color-primary">
+							<a href="#" class="icon icon-facebook pr-10"></a>
+							<a href="#" class="icon icon-twitter pr-10"></a>
+							<a href="#" class="icon icon-pinterest-p"></a>
+						</div>
+					</div><!--text-content-->
+				</div>
+
+			</div><!--col-md-3-->
+
+			<div class="col-md-3 text-center">
+
+				<div class="team-member text-center">
+					<figure>
+						<img src="{% static 'assets/images/team-member7.jpg' %}" alt="post" class="member-image">
+					</figure>
+					<div class="member-details text-center">
+						<h4>Cavid Həsənli</h4>
+						<div class="designation colored">Menecer Köməkçisi</div>
+						<div class="social-links color-primary">
+							<a href="#" class="icon icon-facebook pr-10"></a>
+							<a href="#" class="icon icon-twitter pr-10"></a>
+							<a href="#" class="icon icon-pinterest-p"></a>
+						</div>
+					</div><!--text-content-->
+				</div>
+
+			</div><!--col-md-3-->
+
+			<div class="col-md-3 text-center">
+
+				<div class="team-member text-center">
+					<figure>
+						<img src="{% static 'assets/images/team-member3.jpg' %}" alt="post" class="member-image">
+					</figure>
+					<div class="member-details text-center">
+						<h4>Nərmin Hacıyeva</h4>
+						<div class="designation colored">Heyət</div>
+						<div class="social-links color-primary">
+							<a href="#" class="icon icon-facebook pr-10"></a>
+							<a href="#" class="icon icon-twitter pr-10"></a>
+							<a href="#" class="icon icon-pinterest-p"></a>
+						</div>
+					</div><!--text-content-->
+				</div>
+
+			</div><!--col-md-3-->
+
+		</div>
+	</div>
+</section>
+
+<script src="{% static 'assets/js/jquery-1.11.0.min.js' %}"></script>
+<script>
+	const search = $("#search-b");
+   	search.hide();
+</script>
+
+{% endblock %}

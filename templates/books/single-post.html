@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+	<header id="header">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-2">
+					<div class="main-logo">
+						<a href="index.html"><img src="{% static 'assets/images/main-logo.png' %}" alt="logo"></a>
+					</div>
+
+				</div>
+
+				<div class="col-md-10">
+
+					<nav id="navbar">
+						<div class="main-menu stellarnav">
+							<ul class="menu-list">
+								<li class="menu-item"><a href="/" data-effect="Home">Ana Səhifə</a></li>
+								<li class="menu-item active"><a href="/shop/" class="nav-link" data-effect="Shop">Kitablar</a></li>
+								<li class="menu-item active"><a href="/blog/" class="nav-link" data-effect="Blog">Bloglar</a></li>
+								<li class="menu-item"><a href="/about/" class="nav-link" data-effect="About">Haqqımızda</a></li>
+								<li class="menu-item"><a href="/contact/" class="nav-link" data-effect="Contact">Əlaqə</a></li>
+							</ul>
+
+							<div class="hamburger">
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				            </div>
+
+						</div>
+					</nav>
+
+				</div>
+
+			</div>
+		</div>
+	</header>
+
+</div><!--header-wrap-->
+
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">			
+				<h1 class="page-title">Why Do We Need An Architect Before Building a House?</h1>
+				<div class="breadcrumbs">
+					<span class="item"><a href="index.html">Home /</a></span>
+					<span class="item">Construction Tips</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="padding-large">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-md-12">
+
+				<div class="post-content">
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eisusmod tempor incidunt ut elit et.Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eisusmod tempor incidunt ut elit et.</p>
+					<blockquote>This is blockquote consectetur adipisicing elit sed do eisusmod tempor incidunt ut elit et.</blockquote>
+
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eisusmod tempor incidunt ut elit et.Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eisusmod tempor incidunt ut elit et.</p>
+
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia eserunt mollit anim id est laborum.</p>
+					
+				</div><!--post-content-->
+
+			</div>
+
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				
+				<section class="comments-wrap mb-4">
+					<h3>Comments</h3>
+					<div class="comment-list mt-4">
+
+						<article class="flex-container d-flex mb-3">
+							<img src="{% static 'assets/images/default.png' %}" alt="default" class="commentorImg">
+							<div class="author-post">
+								<div class="comment-meta d-flex">
+									<h4>Michael Watson</h4>
+									<span class="meta-date">Dec 2,2020</span>
+									<small class="comments-reply"><a href="#"><i class="icon icon-mail-reply"></i>Reply</a></small>
+								</div><!--meta-tags-->
+
+								<p>Tristique tempis condimentum diam done ullancomroer sit element henddg sit he consequert.Tristique tempis condimentum diam done ullancomroer sit element henddg sit he consequert.</p>
+							</div>
+
+						</article><!--flex-container-->
+
+						<div class="child-comments">
+							<article class="flex-container d-flex">
+								<img src="{% static 'assets/images/default.png' %}" alt="sara" class="commentorImg">
+								<div class="author-post">
+									<div class="comment-meta d-flex">
+										<h4>Chris Gyale</h4>
+										<span class="meta-date">Dec 3,2020</span>
+										<small class="comments-reply"><a href="#"><i class="icon icon-mail-reply"></i>Reply</a></small>
+									</div><!--meta-tags-->
+
+									<p>Lorem diam done ullancomroer sit element henddg sit he consequert.Tristique tempis condimentum diam done ullancomroer sit element henddg sit he consequert.</p>
+								</div>
+
+							</article><!--flex-container-->
+						</div><!--child-comments-->
+
+					</div><!--comment-list-->
+
+				</section>
+
+				<section class="comment-respond  mb-5">			
+					<h3>Leave a Comment</h3>
+					<form method="post" class="form-group mt-3">
+						
+						<div class="row">
+							<div class="col-md-6">
+								<input class="u-full-width" type="text" name="author" id="author" class="form-control mb-4 mr-4"  placeholder="Your full name">
+							</div>
+							<div class="col-md-6">
+								<input class="u-full-width" type="email" name="email" id="email" class="form-control mb-4"  placeholder="E-mail Address">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<textarea class="u-full-width" id="comment" class="form-control mb-4" name="comment" placeholder="Write your comment here" rows="20"></textarea>
+							</div>
+							<div class="col-md-12">
+								<label class="example-send-yourself-copy">
+								    <input type="checkbox">
+								    <span class="label-body">Save my name, email, and website in this browser for the next time I comment.</span>
+								</label>
+							</div>
+							<div class="col-md-12">
+								<input class="btn btn-rounded btn-large btn-full" type="submit" value="Submit">
+							</div>
+						</div>
+
+					</form>
+				</section>
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<script src="{% static 'assets/js/jquery-1.11.0.min.js' %}"></script>
+<script>
+	const search = $("#search-b");
+   	search.hide();
+</script>
+
+{% endblock %}

@@ -1,0 +1,395 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/price-boxes.css' %}">
+
+<style>
+.wishlist-detail {
+  font-size: 2.5rem;
+  margin-bottom: 3.5rem;
+  background-color: transparent !important;
+  cursor: pointer;
+  color: #878484;
+}
+
+.image-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+</style>
+
+	<header id="header">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-2">
+					<div class="main-logo">
+						<a href="/"><img src="{% static 'assets/images/main-logo.png' %}" alt="logo"></a>
+					</div>
+
+				</div>
+
+				<div class="col-md-10">
+
+					<nav id="navbar">
+						<div class="main-menu stellarnav">
+							<ul class="menu-list">
+								<li class="menu-item"><a href="/" data-effect="Home">Ana Səhifə</a></li>
+								<li class="menu-item active"><a href="/shop/" class="nav-link" data-effect="Shop">Kitablar</a></li>
+								<li class="menu-item"><a href="/about/" class="nav-link" data-effect="About">Haqqımızda</a></li>
+								<li class="menu-item"><a href="/contact/" class="nav-link" data-effect="Contact">Əlaqə</a></li>
+							</ul>
+
+							<div class="hamburger">
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				            </div>
+
+						</div>
+					</nav>
+
+				</div>
+
+			</div>
+		</div>
+	</header>
+
+</div><!--header-wrap-->
+
+<section class="bg-sand padding-large">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-md-6">
+				<img src="{{ bookDetail.bookimage_set.first.image.url }}" width="400" class="product-image">
+			</div>
+
+			<div class="col-md-6 pl-5">
+
+		<div class = "product-content">
+          <h2 class = "product-title">{{ bookDetail.name }}</h2>
+          <h4 class = "product-link">{{ bookDetail.author_none }}</h4>
+
+          <div class = "product-detail">
+            <ul>
+              <li>Yazar: <span>{{ bookDetail.author_none }}</span></li>
+              <li>Anbar: <span>{{ bookDetail.warehouse }}</span></li>
+              <li>Miqdar: <span>{{ bookDetail.quantity }}</span></li>
+				{% if bookDetail.category != None %}
+              		<li>Kateqoriya: <span>{{ bookDetail.category }}</span></li>
+				{% else %}
+					<li>Kateqoriya: <span>Qeyd olunmmayıb</span></li>
+				{% endif %}
+              <li>Nəşr ili: <span>{{ bookDetail.release_date_none }}</span></li>
+              <li>Paylaşan: <span>{{ bookDetail.userauthor.username.first_name }}</span></li>
+              <li>Baxış sayı: <span>{{ bookDetail.view_count }}</span></li>
+            </ul>
+          </div>
+
+	<form method="POST">
+	{% csrf_token %}
+
+		{% if bookDetail.warehouse != "Gözlənilir" and bookDetail.warehouse == "Mövcuddur" and check_user_cart == False %}
+
+		<span> <strong>Kiralama müddətini seçin:</strong></span>
+
+		<div class="price-select">
+
+				{% for month, price in month_prices.items %}
+
+				<div class="price_m">
+
+					<input class="price_month" type="radio" id="price-option-{{month}}" name="month" value="{{month}}">
+					<label for="price-option-{{month}}">
+						<span class="selection-mark"></span>
+						<span class="price-name"> {{month}} Aylıq</span>
+						<span class="random-text"><span class="month_val" id="price-1">{{price|floatformat:2}}</span> AZN</span>
+					</label>
+
+				</div>
+
+				{% endfor %}
+
+		</div>
+
+		{% endif %}
+
+		<div class="purchase-info">
+
+			{% if check_user_queue is True %}
+
+			<button style="pointer-events: none; background-color: green"  class="btn">
+				  Növbə Götürdünüz <i class="fas fa-shopping-cart"></i>
+				</button>
+
+			{% elif bookDetail.warehouse == "Gözlənilir" %}
+				<button type="button" onclick="getQueue('{{bookDetail.id}}')" class="btn" title="Növbə götürdüyünüzdə, kitab anbarda mövcud olduqda sizə bildirim göndəriləcəkdir">
+				  Növbə Götür <i class="fas fa-shopping-cart"></i>
+				</button>
+
+			{% endif %}
+
+			{% if check_user_cart %}
+
+            <button style="pointer-events: none; background-color: green" class="btn">
+              Məhsulu Siyahınıza Əlavə Etdiniz
+            </button>
+
+			{% elif bookDetail.warehouse == "Mövcuddur" %}
+
+			<button type="button" onclick="createCart('{{bookDetail.id}}')" class="btn">
+              Məhsul Siyahısına Əlavə Et
+            </button>
+
+			{% endif %}
+
+            <button type="button" title="İstək Siyahısına Əlavə Et" class="wishlist-detail" onclick="getWish('{{bookDetail.id}}')">
+				<i style="{% if get_user in bookDetail.wishlist.all %} color: red; {% endif %}" id="wishlist" class="bi bi-heart-fill"></i>
+			</button>
+          </div>
+
+			<h4 style="color: red; display: none;" id="permission-queue"></h4>
+			<h4 style="color: red; display: none;" id="permission-wish"></h4>
+			<h4 style="color: red; display: none;" id="permission-cart"></h4>
+
+			<h2 style="margin-top: 4rem">Kitab məzmunu: </h2>
+
+			<p>{{ bookDetail.summary|safe }}</p>
+
+		</form>
+		</div>
+
+		</div>
+			{% if get_user %}
+
+			<form method="post">
+			{% csrf_token %}
+			<div style="margin-bottom: 60px" class="row">
+				<div class="col-md-2 text-end">
+					<div style="margin-left: 100px" class="image-container">
+						{% if get_user.photo %}
+							<img width="90" src="{{get_user.photo.url}}" alt="">
+						{% endif %}
+					</div>
+				</div>
+				<div class="col-md-1">
+					<textarea class="u-full-width" name="comment" placeholder="Şərh əlavə edin" style="margin-bottom: 0px; width: 500px; height: 100px;"></textarea>
+					<button style="margin-left: 390px; margin-top: 0px; height: 45px; font-size: 14px" type="submit">Əlavə Et</button>
+				</div>
+
+			</div>
+			</form>
+
+			{% endif %}
+
+		</div>
+
+		{% for comment in comments %}
+		<hr>
+		<div id="user_comment" style="margin-bottom: 50px" class="row">
+
+			<div class="col-md-2 text-end">
+				<div style="margin-left: 100px" class="image-container">
+					{% if comment.user.photo %}
+						<img id="ppCom" width="90" src="{{comment.user.photo.url}}" alt="">
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-md-4 justify-context-start">
+				<span style="margin-bottom: 20px">{{comment.user.username}}</span>
+				<p><strong>{{comment.comment}}</strong></p>
+			</div>
+			{% if comment.user.username == request.user %}
+			<div class="col-md-2 justify-context-start">
+				<button onclick="delComment({{comment.id}})" style="border-radius: 10%; background-color: #c74e5c; height: 45px; font-size: 12px" type="button">Şərhinizi silin</button>
+			</div>
+			{% endif %}
+
+		</div>
+		{% endfor %}
+
+	</div>
+</section>
+
+<script src="{% static 'assets/js/jquery-1.11.0.min.js' %}"></script>
+<script>
+	const search = $("#search-b");
+   	search.hide();
+
+	const wish_url = "{% url 'books:wish' %}"
+	const permissionMsgWish = $("#permission-cart")
+
+	function getWish(id){
+
+		var myHeaders = new Headers()
+           myHeaders.append('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value)
+
+           var formData = new FormData()
+           formData.append('id', id)
+
+			var requestOptions = {
+               method: 'POST',
+                headers: myHeaders,
+                body: formData,
+                redirect: 'follow',
+            };
+
+            response = fetch(wish_url, requestOptions)
+            	.then(function(response) {
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            if (data.permission == false){
+                                permissionMsgWish.append("Əməliyyatı etmək üçün istifadəçi hesabına giriş etməlisiniz");
+                            	permissionMsgWish.show();
+								  setTimeout(function() {
+									permissionMsgWish.hide();
+								  }, 4000);
+                            } else if (data.success) {
+								$("#wishlist").css('color', 'red');
+								location.reload()
+                            } else{
+                                $("#wishlist").css('color', 'white');
+                                location.reload();
+                            }
+
+                        })
+
+                    }
+                })
+		permissionMsgWish.html('')
+		}
+
+
+	const queue_url = "{% url 'books:queue' %}"
+	const permissionMsgQueue = $("#permission-queue")
+
+	function getQueue(id){
+
+		var myHeaders = new Headers()
+           myHeaders.append('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value)
+
+           var formData = new FormData()
+           formData.append('id', id)
+
+			var requestOptions = {
+               method: 'POST',
+                headers: myHeaders,
+                body: formData,
+                redirect: 'follow',
+            };
+
+            response = fetch(queue_url, requestOptions)
+            	.then(function(response) {
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            if (data.permission == false){
+                                permissionMsgQueue.append("Əməliyyatı etmək üçün istifadəçi hesabına giriş etməlisiniz");
+                            	permissionMsgQueue.show();
+								  setTimeout(function() {
+									permissionMsgQueue.hide();
+								  }, 4000);
+                            } else if (data.success) {
+								location.reload()
+                            }
+
+                        })
+
+                    }
+                })
+		permissionMsgQueue.html('')
+		}
+
+
+	$(document).ready(function() {
+	  $('input[type="radio"]:first').prop('checked', true); // Automatically select the first entry when the page opens
+	});
+
+	const create_cart_url = "{% url 'books:createcart' %}"
+	const permissionMsgCart = $("#permission-cart")
+
+	function createCart(id){
+
+		var myHeaders = new Headers()
+           myHeaders.append('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value)
+
+           var formData = new FormData()
+           formData.append('id', id)
+           formData.append('month', $('input[name=month]:checked').val())
+
+			var requestOptions = {
+               method: 'POST',
+                headers: myHeaders,
+                body: formData,
+                redirect: 'follow',
+            };
+
+            response = fetch(create_cart_url, requestOptions)
+            	.then(function(response) {
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            if (data.permission == false){
+                                permissionMsgCart.append("Əməliyyatı etmək üçün istifadəçi hesabına giriş etməlisiniz");
+                            	permissionMsgCart.show();
+								  setTimeout(function() {
+									permissionMsgCart.hide();
+								  }, 4000);
+                            } else if (data.success) {
+                            	location.reload()
+                            }
+
+                        })
+
+                    }
+                })
+		permissionMsgCart.html('')
+		}
+
+
+	const comment_url = "{% url 'books:delcomment' %}"
+
+	function delComment(id){
+
+		var myHeaders = new Headers()
+           myHeaders.append('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value)
+
+           var formData = new FormData()
+           formData.append('id', id)
+
+			var requestOptions = {
+               method: 'POST',
+                headers: myHeaders,
+                body: formData,
+                redirect: 'follow',
+            };
+
+            response = fetch(comment_url, requestOptions)
+            	.then(function(response) {
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            if (data.success) {
+								$("#user_comment").remove();
+                            }
+                            location.reload()
+                        })
+
+                    }
+                })
+
+		}
+
+</script>
+
+{% endblock %}

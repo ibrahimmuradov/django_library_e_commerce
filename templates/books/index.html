@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+{{ block.super }}
+
+	<header id="header">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-2">
+					<div class="main-logo">
+						<a href="/"><img src="{% static 'assets/images/main-logo.png' %}" alt="logo"></a>
+					</div>
+
+				</div>
+
+				<div class="col-md-10">
+
+					<nav id="navbar">
+						<div class="main-menu stellarnav">
+							<ul class="menu-list">
+								<li class="menu-item active"><a href="/" data-effect="Home">Ana Səhifə</a></li>
+								<li class="menu-item"><a href="/shop/" class="nav-link" data-effect="Shop">Kitablar</a></li>
+								<li class="menu-item"><a href="/about/" class="nav-link" data-effect="About">Haqqımızda</a></li>
+								<li class="menu-item"><a href="/contact/" class="nav-link" data-effect="Contact">Əlaqə</a></li>
+							</ul>
+
+							<div class="hamburger">
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				            </div>
+
+						</div>
+					</nav>
+
+				</div>
+
+			</div>
+		</div>
+	</header>
+
+</div><!--header-wrap-->
+
+<section id="billboard">
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<button class="prev slick-arrow">
+					<i class="icon icon-arrow-left"></i>
+				</button>
+
+				<div class="main-slider pattern-overlay">
+
+					<div class="slider-item">
+						<div class="banner-content">
+							<h2 class="banner-title">{{ homebook.name }}</h2>
+							<p>{{ homebook.summary|safe|truncatewords:20 }}</p>
+							<div class="btn-wrap">
+								<a href="/detail/{{ homebook.id }}/" class="btn btn-outline-accent btn-accent-arrow">Ətraflı <i class="icon icon-ns-arrow-right"></i></a>
+							</div>
+						</div><!--banner-content--> 
+						<img src="{{ homebook.bookimage_set.first.image.url }}" width="410" alt="banner" class="banner-image">
+					</div><!--slider-item-->
+
+				</div><!--slider-->
+
+				<button class="next slick-arrow">
+					<i class="icon icon-arrow-right"></i>
+				</button>
+				
+			</div>
+		</div>
+	</div>
+	
+</section>
+
+<section id="client-holder" data-aos="fade-up">
+	<div class="container">
+		<div class="row">
+			<div class="inner-content">
+				<div class="logo-wrap">
+					<div class="grid">
+						<a href="#"><img src="{% static 'assets/images/client-image1.png' %}" alt="client"></a>
+						<a href="#"><img src="{% static 'assets/images/client-image2.png' %}" alt="client"></a>
+						<a href="#"><img src="{% static 'assets/images/client-image3.png' %}" alt="client"></a>
+						<a href="#"><img src="{% static 'assets/images/client-image4.png' %}" alt="client"></a>
+						<a href="#"><img src="{% static 'assets/images/client-image5.png' %}" alt="client"></a>
+					</div>
+				</div><!--image-holder-->
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="featured-books">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+			<div class="section-header align-center">
+				<h2 class="section-title">Önə Çıxan Kitablar</h2>
+			</div>
+
+			<div class="product-list" data-aos="fade-up">
+				<div class="row">
+
+					{% for featuredBook in featuredBooks %}
+
+					<div class="col-md-3">
+						<figure class="product-style">
+							<a href="/detail/{{featuredBook.id}}/">
+								<img src="{{ featuredBook.bookimage_set.first.image.url }}" alt="Books" class="product-item">
+							</a>
+							<figcaption>
+								<h3>{{ featuredBook.name|truncatewords:3 }}</h3>
+								<p>{{ featuredBook.author_none|truncatewords:3 }}</p>
+								<div class="item-price"> {{ featuredBook.rent }} AZN</div>
+							</figcaption>
+						</figure>
+					</div>
+
+					{% endfor %}
+
+			    </div><!--ft-books-slider-->				
+			</div><!--grid-->
+
+
+			</div><!--inner-content-->
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="btn-wrap align-right">
+					<a href="/shop/" class="btn-accent-arrow"> Bütün kitablara bax<i class="icon icon-ns-arrow-right"></i></a>
+				</div>
+				
+			</div>		
+		</div>
+	</div>
+</section>
+
+<section id="best-selling" class="leaf-pattern-overlay">
+	<div class="corner-pattern-overlay"></div>
+	<div class="container">
+		<div class="row">
+
+			<div class="col-md-8 col-md-offset-2">
+
+				<div class="row">
+
+					<div class="col-md-6">
+						<figure class="products-thumb">
+							<img src="{{ bestSellingBook.bookimage_set.first.image.url }}" alt="book" class="single-image">
+						</figure>	
+					</div>
+
+					<div class="col-md-6">
+						<div class="product-entry">
+							<h2 class="section-title divider">Ən Çox Satılan Kitab</h2>
+
+							<div class="products-content">
+								<div class="author-name">{{ bestSellingBook.author_none }}</div>
+								<h3 class="item-title">{{ bestSellingBook.name }}</h3>
+								<p>{{ bestSellingBook.summary|safe|truncatewords:15 }}</p>
+								<div class="item-price"> {{ bestSellingBook.rent }} AZN</div>
+								<div class="btn-wrap">
+									<a href="/detail/{{ bestSellingBook.id }}" class="btn-accent-arrow"> Kirala <i class="icon icon-ns-arrow-right"></i></a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+				<!-- / row -->
+
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<section id="quotation" class="align-center">
+	<div class="inner-content">
+		<h2 class="section-title divider">Günün Sözü</h2>
+		<blockquote data-aos="fade-up">
+			<q>“Oxumadan keçən bir gün, itirilmiş gündür.”</q>
+			<div class="author-name">Paul Sartre</div>
+		</blockquote>
+	</div>		
+</section>
+
+
+<script src="{% static 'assets/js/jquery-1.11.0.min.js' %}"></script>
+<script>
+	const search = $("#search-b");
+   	search.hide();
+</script>
+
+{% endblock %}
