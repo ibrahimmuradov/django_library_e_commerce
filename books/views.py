@@ -298,10 +298,10 @@ def contact_view(request):
             # sending mail
 
             send_mail(
-                'Subject here',  # subject
-                'message',  # message
-                'from@example.com',  # from mail
-                ['to@example.com'],  # to mail
+                'Booksaw Contact',  # subject
+                contactForm.cleaned_data.get('message'),  # message
+                'settings.EMAIL_HOST_USER',  # from mail
+                ['youremail@gmail.com', ],  # to mail
                 fail_silently=False,
             )
 
