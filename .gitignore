@@ -1,4 +1,6 @@
 .idea/
-db.sqlite3
+.venv/
+media/
 pyvenv.cfg
-.venv
+db.sqlite3
+manage.py
