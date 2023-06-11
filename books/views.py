@@ -17,17 +17,22 @@ def handler404(request, exception):
 
 
 def index_view(request):
-    homebook = Book.objects.filter(~Q(warehouse="Bitdi")&~Q(status="Deaktiv")).annotate(
-        author_none=Coalesce(F("author"), Value("Qeyd olunmayıb"))
-    ).order_by('-view_count')[0]
+    homebook = None
+    featuredBooks = None
+    bestSellingBook = None
 
-    featuredBooks = Book.objects.filter(~Q(warehouse="Bitdi")&~Q(status="Deaktiv")).annotate(
-        author_none=Coalesce(F("author"), Value("Qeyd olunmayıb"))
-    ).order_by('-view_count')[:4]
+    if Book.objects.all():
+        homebook = Book.objects.filter(~Q(warehouse="Bitdi")&~Q(status="Deaktiv")).annotate(
+            author_none=Coalesce(F("author"), Value("Qeyd olunmayıb"))
+        ).order_by('-view_count')[0]
 
-    bestSellingBook = Book.objects.filter(~Q(warehouse="Bitdi")&~Q(status="Deaktiv")).annotate(
-        author_none=Coalesce(F("author"), Value("Qeyd olunmayıb"))
-    ).order_by('-view_count')[0]
+        featuredBooks = Book.objects.filter(~Q(warehouse="Bitdi")&~Q(status="Deaktiv")).annotate(
+            author_none=Coalesce(F("author"), Value("Qeyd olunmayıb"))
+        ).order_by('-view_count')[:4]
+
+        bestSellingBook = Book.objects.filter(~Q(warehouse="Bitdi")&~Q(status="Deaktiv")).annotate(
+            author_none=Coalesce(F("author"), Value("Qeyd olunmayıb"))
+        ).order_by('-view_count')[0]
 
     context = {
         "homebook": homebook,
