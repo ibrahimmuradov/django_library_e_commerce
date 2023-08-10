@@ -14,8 +14,6 @@ from books.models import Book, BookImage, RentBook
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.contrib import messages
-from datetime import timedelta
-from django.utils import timezone
 from useraccount.models import User
 
 def is_not_authenticated(user): # checks user not logged
@@ -33,13 +31,9 @@ def statics_view(request):
 
         wishlist_books = author.book_set.filter(wishlist_count__gte=1).order_by('-wishlist_count')[:5] # author's most wishlisted books
 
-        now = timezone.now()
-        thirty_days = now - timedelta(days=30)
-        seven_days = now - timedelta(days=7)
-
-        view_c = author.book_set.filter(updated_at__range=(thirty_days, now)).values('view_count') # views of author total books in the last 30 days
-        wishlist_c = author.book_set.filter(updated_at__range=(seven_days, now)).values('wishlist_count')  # views of author total books in the last 30 days
-        rent_book_c = rentBook.filter(updated_at__range=(seven_days, now)).count()
+        view_c = author.book_set.all().values('view_count')
+        wishlist_c = author.book_set.all().values('wishlist_count')
+        rent_book_c = rentBook.all().count()
 
         total_view_count = 0
         for view in view_c:

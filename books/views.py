@@ -104,7 +104,7 @@ def shop_view(request):
     context = {
         "books": book_list,
         "categories": Category.objects.filter(parent__isnull=True),
-        "years": years,
+        "years": set(years),
         "tenants": tenants,
         "pagiantor": paginator,
         "filter_dict": filter_dict.values()
