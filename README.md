@@ -15,7 +15,7 @@ in the product list because I did not make a payment system because I did not pu
 <br>
 Tenants can share and manage their books from the dashboard. The tenant can see which user bought the book in which date range and statistics about the general books about the books they share.
 <br>
-I used Jinja template engine as template language in the project. I made the backend with Python's Django framework and used jquery in the frontend.
+ I used Python's Django framework on the backend and jquery on the frontend.
 
 ## Installation
 
