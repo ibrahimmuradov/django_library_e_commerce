@@ -6,7 +6,7 @@ You can use the library project I made according to your wishes.
 
 The purpose of my project is that users, as tenants, can share their books for rent online, and visitors can buy books shared by tenants. 
 <br>
-Users can receive books shared by tenants for a period of time they choose. He can add or remove books from his wish list. They can add or 
+Users can receive books shared by tenants for a period of time they choose. User can add books to wish list. They can add or 
 remove books from their wish list. When the book they want to buy is not in stock, I made a queue system so that the user is informed when 
 the book is in stock. When the book is in stock, a notification is automatically sent to the user's e-mail address. The user can cancel 
 the queue at any time. After the user selects the book or books for the period he wants to buy, he can add them to the product list. 
