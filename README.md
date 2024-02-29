@@ -10,8 +10,7 @@ Users can receive books shared by tenants for a period of time they choose. User
 remove books from their wish list. When the book they want to buy is not in stock, I made a queue system so that the user is informed when 
 the book is in stock. When the book is in stock, a notification is automatically sent to the user's e-mail address. The user can cancel 
 the queue at any time. After the user selects the book or books for the period he wants to buy, he can add them to the product list. 
-The user can change the number of books added to the product list or remove them from the product list. Users cannot buy their books 
-in the product list because I did not make a payment system because I did not put my project into use as an e-commerce site.
+The user can change the number of books added to the product list or remove them from the product list.
 <br>
 Tenants can share and manage their books from the dashboard. The tenant can see which user bought the book in which date range and statistics about the general books about the books they share.
 <br>
